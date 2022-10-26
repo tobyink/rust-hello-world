@@ -117,7 +117,7 @@ jobs:
           rustup default stable
       - name: rust-cache
         uses: Swatinem/rust-cache@v2
-      - run: cargo install tarpaulin
+      - run: cargo install cargo-tarpaulin
       - name: cargo tarpaulin
         run: cargo tarpaulin --verbose --all-features --workspace --timeout 120 --out Xml
       - name: upload to codecov.io
