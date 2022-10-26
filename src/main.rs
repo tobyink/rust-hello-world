@@ -1,5 +1,5 @@
 fn get_greeting() -> String {
-    return "Hello, world!".to_string();
+    "Hello, world!".to_string();
 }
 
 fn main() {
