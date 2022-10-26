@@ -1,3 +1,5 @@
+#!/usr/bin/env -S cargo run -q
+
 /// Retrieve the greeting that will be printed by the app.
 fn get_greeting() -> String {
 	"Hello, world!".to_string()
