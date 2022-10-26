@@ -3,6 +3,16 @@ name: CI
 env:
   CARGO_TERM_COLOR: always
 
+inputs:
+  rust:
+    required: false
+    description: "Rust toolchain, e.g. 'stable' or 'nightly'"
+    default: stable
+  cache-key:
+    required: false
+    description: "Extra key to resolve cache"
+    default: ''
+
 on: [push]
 
 jobs:
@@ -13,13 +23,13 @@ jobs:
       - name: checkout
         uses: actions/checkout@v2
       - name: install toolchain
-        uses: actions-rs/toolchain@v1
-        with:
-          profile: minimal
-          toolchain: stable
-          override: true
+        run: |
+          rustup toolchain install ${{ inputs.rust }} --profile minimal --no-self-update
+          rustup default ${{ inputs.rust }}
       - name: rust-cache
         uses: Swatinem/rust-cache@v2
+        with:
+          shared-key: ${{ inputs.cache-key }}
       - name: cargo check
         uses: actions-rs/cargo@v1
         with:
@@ -32,13 +42,13 @@ jobs:
       - name: checkout
         uses: actions/checkout@v2
       - name: install toolchain
-        uses: actions-rs/toolchain@v1
-        with:
-          profile: minimal
-          toolchain: stable
-          override: true
+        run: |
+          rustup toolchain install ${{ inputs.rust }} --profile minimal --no-self-update
+          rustup default ${{ inputs.rust }}
       - name: rust-cache
         uses: Swatinem/rust-cache@v2
+        with:
+          shared-key: ${{ inputs.cache-key }}
       - name: cargo build
         uses: actions-rs/cargo@v1
         with:
@@ -58,13 +68,13 @@ jobs:
       - name: checkout
         uses: actions/checkout@v2
       - name: install toolchain
-        uses: actions-rs/toolchain@v1
-        with:
-          profile: minimal
-          toolchain: stable
-          override: true
+        run: |
+          rustup toolchain install ${{ inputs.rust }} --profile minimal --no-self-update
+          rustup default ${{ inputs.rust }}
       - name: rust-cache
         uses: Swatinem/rust-cache@v2
+        with:
+          shared-key: ${{ inputs.cache-key }}
       - name: cargo doc
         uses: actions-rs/cargo@v1
         with:
@@ -83,13 +93,13 @@ jobs:
       - name: checkout
         uses: actions/checkout@v2
       - name: install toolchain
-        uses: actions-rs/toolchain@v1
-        with:
-          profile: minimal
-          toolchain: stable
-          override: true
+        run: |
+          rustup toolchain install ${{ inputs.rust }} --profile minimal --no-self-update
+          rustup default ${{ inputs.rust }}
       - name: rust-cache
         uses: Swatinem/rust-cache@v2
+        with:
+          shared-key: ${{ inputs.cache-key }}
       - name: cargo test
         uses: actions-rs/cargo@v1
         with:
@@ -102,13 +112,13 @@ jobs:
       - name: checkout
         uses: actions/checkout@v2
       - name: install toolchain
-        uses: actions-rs/toolchain@v1
-        with:
-          profile: minimal
-          toolchain: stable
-          override: true
+        run: |
+          rustup toolchain install ${{ inputs.rust }} --profile minimal --no-self-update
+          rustup default ${{ inputs.rust }}
       - name: rust-cache
         uses: Swatinem/rust-cache@v2
+        with:
+          shared-key: ${{ inputs.cache-key }}
       - run: rustup component add rustfmt
       - name: cargo fmt --check
         uses: actions-rs/cargo@v1
@@ -123,13 +133,13 @@ jobs:
       - name: checkout
         uses: actions/checkout@v2
       - name: install toolchain
-        uses: actions-rs/toolchain@v1
-        with:
-          profile: minimal
-          toolchain: stable
-          override: true
+        run: |
+          rustup toolchain install ${{ inputs.rust }} --profile minimal --no-self-update
+          rustup default ${{ inputs.rust }}
       - name: rust-cache
         uses: Swatinem/rust-cache@v2
+        with:
+          shared-key: ${{ inputs.cache-key }}
       - run: rustup component add clippy
       - name: cargo clippy
         uses: actions-rs/cargo@v1
@@ -144,13 +154,13 @@ jobs:
       - name: checkout
         uses: actions/checkout@v2
       - name: install toolchain
-        uses: actions-rs/toolchain@v1
-        with:
-          profile: minimal
-          toolchain: stable
-          override: true
+        run: |
+          rustup toolchain install ${{ inputs.rust }} --profile minimal --no-self-update
+          rustup default ${{ inputs.rust }}
       - name: rust-cache
         uses: Swatinem/rust-cache@v2
+        with:
+          shared-key: ${{ inputs.cache-key }}
       - name: cargo install tarpaulin
         uses: actions-rs/cargo@v1
         with:
