@@ -78,7 +78,7 @@ jobs:
           command: clippy
           args: -- -D warnings
 
-  test:
+  coverage:
     name: Coverage
     runs-on: ubuntu-latest
     steps:
