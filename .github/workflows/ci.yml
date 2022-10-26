@@ -3,16 +3,6 @@ name: CI
 env:
   CARGO_TERM_COLOR: always
 
-inputs:
-  rust:
-    required: false
-    description: "Rust toolchain, e.g. 'stable' or 'nightly'"
-    default: stable
-  cache-key:
-    required: false
-    description: "Extra key to resolve cache"
-    default: ''
-
 on: [push]
 
 jobs:
@@ -24,16 +14,11 @@ jobs:
         uses: actions/checkout@v2
       - name: install toolchain
         run: |
-          rustup toolchain install ${{ inputs.rust }} --profile minimal --no-self-update
-          rustup default ${{ inputs.rust }}
+          rustup toolchain install stable --profile minimal --no-self-update
+          rustup default stable
       - name: rust-cache
         uses: Swatinem/rust-cache@v2
-        with:
-          shared-key: ${{ inputs.cache-key }}
-      - name: cargo check
-        uses: actions-rs/cargo@v1
-        with:
-          command: check
+      - run: cargo check
 
   build:
     name: Build
@@ -43,17 +28,11 @@ jobs:
         uses: actions/checkout@v2
       - name: install toolchain
         run: |
-          rustup toolchain install ${{ inputs.rust }} --profile minimal --no-self-update
-          rustup default ${{ inputs.rust }}
+          rustup toolchain install stable --profile minimal --no-self-update
+          rustup default stable
       - name: rust-cache
         uses: Swatinem/rust-cache@v2
-        with:
-          shared-key: ${{ inputs.cache-key }}
-      - name: cargo build
-        uses: actions-rs/cargo@v1
-        with:
-          command: build
-          args: --release
+      - run: cargo build --release
       - name: upload
         uses: actions/upload-artifact@v3
         with:
@@ -69,17 +48,11 @@ jobs:
         uses: actions/checkout@v2
       - name: install toolchain
         run: |
-          rustup toolchain install ${{ inputs.rust }} --profile minimal --no-self-update
-          rustup default ${{ inputs.rust }}
+          rustup toolchain install stable --profile minimal --no-self-update
+          rustup default stable
       - name: rust-cache
         uses: Swatinem/rust-cache@v2
-        with:
-          shared-key: ${{ inputs.cache-key }}
-      - name: cargo doc
-        uses: actions-rs/cargo@v1
-        with:
-          command: doc
-          args: -vv --all-features
+      - run: cargo doc -vv --all-features
       - name: upload
         uses: actions/upload-artifact@v3
         with:
@@ -94,16 +67,11 @@ jobs:
         uses: actions/checkout@v2
       - name: install toolchain
         run: |
-          rustup toolchain install ${{ inputs.rust }} --profile minimal --no-self-update
-          rustup default ${{ inputs.rust }}
+          rustup toolchain install stable --profile minimal --no-self-update
+          rustup default stable
       - name: rust-cache
         uses: Swatinem/rust-cache@v2
-        with:
-          shared-key: ${{ inputs.cache-key }}
-      - name: cargo test
-        uses: actions-rs/cargo@v1
-        with:
-          command: test
+      - run: cargo test
 
   fmt:
     name: Rustfmt
@@ -113,18 +81,12 @@ jobs:
         uses: actions/checkout@v2
       - name: install toolchain
         run: |
-          rustup toolchain install ${{ inputs.rust }} --profile minimal --no-self-update
-          rustup default ${{ inputs.rust }}
+          rustup toolchain install stable --profile minimal --no-self-update
+          rustup default stable
       - name: rust-cache
         uses: Swatinem/rust-cache@v2
-        with:
-          shared-key: ${{ inputs.cache-key }}
       - run: rustup component add rustfmt
-      - name: cargo fmt --check
-        uses: actions-rs/cargo@v1
-        with:
-          command: fmt
-          args: --all -- --check
+      - name: cargo fmt --all -- --check
 
   clippy:
     name: Clippy
@@ -134,18 +96,12 @@ jobs:
         uses: actions/checkout@v2
       - name: install toolchain
         run: |
-          rustup toolchain install ${{ inputs.rust }} --profile minimal --no-self-update
-          rustup default ${{ inputs.rust }}
+          rustup toolchain install stable --profile minimal --no-self-update
+          rustup default stable
       - name: rust-cache
         uses: Swatinem/rust-cache@v2
-        with:
-          shared-key: ${{ inputs.cache-key }}
       - run: rustup component add clippy
-      - name: cargo clippy
-        uses: actions-rs/cargo@v1
-        with:
-          command: clippy
-          args: -- -D warnings
+      - run: cargo clippy -- -D warnings
 
   coverage:
     name: Coverage
@@ -155,17 +111,11 @@ jobs:
         uses: actions/checkout@v2
       - name: install toolchain
         run: |
-          rustup toolchain install ${{ inputs.rust }} --profile minimal --no-self-update
-          rustup default ${{ inputs.rust }}
+          rustup toolchain install stable --profile minimal --no-self-update
+          rustup default stable
       - name: rust-cache
         uses: Swatinem/rust-cache@v2
-        with:
-          shared-key: ${{ inputs.cache-key }}
-      - name: cargo install tarpaulin
-        uses: actions-rs/cargo@v1
-        with:
-          command: install
-          args: cargo-tarpaulin
+      - run: cargo install tarpaulin
       - name: cargo tarpaulin
         run: cargo tarpaulin --verbose --all-features --workspace --timeout 120 --out Xml
       - name: upload to codecov.io
