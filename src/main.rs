@@ -16,4 +16,10 @@ mod tests {
     fn test_get_greeting() {
         assert_eq!(13, get_greeting().len());
     }
+
+    #[test]
+    fn test_main() {
+        main();
+        assert!(true);
+    }
 }
