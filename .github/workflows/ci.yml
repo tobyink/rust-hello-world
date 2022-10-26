@@ -38,7 +38,6 @@ jobs:
         with:
           name: release
           path: target/release/
-    
 
   doc:
     name: Rustdoc
@@ -52,7 +51,8 @@ jobs:
           rustup default stable
       - name: rust-cache
         uses: Swatinem/rust-cache@v2
-      - run: cargo doc -vv --all-features
+      - name: cargo doc
+        run: cargo doc -vv --all-features
       - name: upload
         uses: actions/upload-artifact@v3
         with:
@@ -86,7 +86,8 @@ jobs:
       - name: rust-cache
         uses: Swatinem/rust-cache@v2
       - run: rustup component add rustfmt
-      - name: cargo fmt --all -- --check
+      - name: cargo fmt
+        run: cargo fmt --all -- --check
 
   clippy:
     name: Clippy
@@ -101,7 +102,8 @@ jobs:
       - name: rust-cache
         uses: Swatinem/rust-cache@v2
       - run: rustup component add clippy
-      - run: cargo clippy -- -D warnings
+      - name: cargo clippy
+        run: cargo clippy -- -D warnings
 
   coverage:
     name: Coverage
