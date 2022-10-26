@@ -1,7 +1,9 @@
+/// Retrieve the greeting that will be printed by the app.
 fn get_greeting() -> String {
     "Hello, world!".to_string()
 }
 
+/// Gives a friendly hello!
 fn main() {
     println!("{}", get_greeting());
 }
